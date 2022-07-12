@@ -1,0 +1,190 @@
+<!-- <p>add-user works!</p> -->
+<div class="card">
+    <div class="card-header text-white bg-black">
+    </div>
+    <div class="card-body">
+
+            <h1 class="col-10">ADD ORDER</h1>
+
+            <form ngNativeValidate [formGroup]="formOrder" (ngSubmit)="sendData()">
+
+                <div class="mb-3">
+                    <label for="" class="form-label">User:</label>
+                          <select required class="form-select"  formControlName="IdUser" name="" id="" aria-describedby="helpId" placeholder="">
+                            <option [selected]="true" [disabled]="true" value="">Select User</option>    
+                            <option [value]="user.IdUser" *ngFor="let user of Users;" >{{user.IdUser}} - {{user.Name}}</option>
+                        </select>
+                </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Order Number:</label>
+                      <input type="number" required class="form-control" name="" formControlName="OrderNumber" id="" aria-describedby="helpId" placeholder="">
+            </div>
+                <div class="mb-3">
+                  <label for="" class="form-label">Date Time:</label>
+                      <div class="row px-3">
+                        <input  type="time" required formControlName="Time" class="form-control col" name="" id="" aria-describedby="helpId" placeholder="">
+                        <input  type="date" required formControlName="DateTime" class="form-control col" name="" id="" aria-describedby="helpId" placeholder="">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">ProviderName:</label>
+                              <input type="text" required formControlName="ProviderName" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="" class="form-label">Observation:</label>
+
+                              <input type="text" required formControlName="Observation" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">TotalValue:</label>
+                              <input type="number" required formControlName="TotalValue" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="" class="form-label">Status:</label>
+                              <select required  formControlName="Status" class="form-select col" name="" id="" aria-describedby="helpId" placeholder="">
+                                <option [selected]="true" [disabled]="true" value="">Select Status</option>
+                                <option value="1">Ingresado</option>
+                                <option value="2">Enviado</option>
+                                <option value="3">Entregado</option>
+                            </select>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="">
+                        <button type="submit" class="btn btn-success">ADD</button>
+                        <button type="button" routerLink="/list-order" class="btn btn-danger">CANCEL</button>
+                    </div>
+                    <br/>
+                    <hr/>
+                </form>
+                <h2>Products</h2>
+                    
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>ValueUnit</th>
+                            <th>Unit</th>
+                            <th>Description</th>
+                            <th>SKU</th>
+                            <th>Quantity</th>
+                            <th>QtyBox</th>
+                            <th>Weight</th>
+                            <th>Volumen</th>
+                            <th>Mark</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr *ngFor="let order of Orders; let iControl=index"> -->
+                        <tr *ngFor="let producto of Products; let iControl=index">
+                            <td>{{producto.id}}</td>
+                            <td>{{producto.ValueUnit}}</td>
+                            <td>{{producto.Unit}}</td>
+                            <td>{{producto.Description}}</td>
+                            <td>{{producto.SKU}}</td>
+                            <td>{{producto.Quantity}}</td>
+                            <td>{{producto.QtyBox}}</td>
+                            <td>{{producto.Weight}}</td>
+                            <td>{{producto.Volumen}}</td>
+                            <td>{{producto.Mark}}</td>
+                            <td>{{producto.Status}}</td>
+                            <td>    
+                              <a class="btn btn-danger" (click)="deleteOrder(iControl, producto.id)"  role="button">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                    <div class="card">
+                        <div class="card-header text-white bg-dark">
+                            Add Product
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Value Unit</label>
+                                      <input type="text" [(ngModel)]="ValueUnit" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Unit</label>
+                                      <input type="text" [(ngModel)]="Unit" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Description</label>
+                                      <input type="text" [(ngModel)]="Description" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">SKU</label>
+                                      <input type="text" [(ngModel)]="SKU" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Quantity</label>
+                                      <input type="text" [(ngModel)]="Quantity" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">QtyBox</label>
+                                      <input type="text" [(ngModel)]="QtyBox" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Weight</label>
+                                      <input type="text" [(ngModel)]="Weight" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Volumen</label>
+                                      <input type="text" [(ngModel)]="Volumen" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Mark</label>
+                                      <input type="text" [(ngModel)]="Mark" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label">Status</label>
+                                      <input type="text" [(ngModel)]="Status" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                            <div class="btn-group" role="group" aria-label="">
+                                <a (click)="addProduct()" class="btn btn-warning">ADD PRODUCT</a>
+                                <button type="button" (click)="clean()"class="btn btn-danger">CLEAN</button>
+                            </div>
+                        
+                        </div>
+                    </div>
+                    <br/>
+
+    </div>
+
+</div>

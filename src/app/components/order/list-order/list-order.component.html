@@ -1,0 +1,50 @@
+<div class="d-grid gap-2">
+    
+</div>
+<div class="card mt-10">
+    <div class="card-header text-white bg-dark">
+        <a class="btn btn-success" routerLink="../add-order">ADD ORDER </a>
+    </div>
+    <div class="card-body">
+        <h1>Order List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>IdOrder</th>
+                    <th>IdUser</th>
+                    <th>OrderNumber</th>
+                    <th>DateTime</th>
+                    <th>ProviderName</th>
+                    <th>DateCreated</th>
+                    <th>Observation</th>
+                    <th>TotalValue</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of Orders; let iControl=index">
+                    <td>{{order.IdOrder}}</td>
+                    <td>{{order.IdUser}} - <b>{{order.Name}}</b></td>
+                    <td>{{order.OrderNumber}}</td>
+                    <td>{{order.DateTime| date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{order.ProviderName}}</td>
+                    <td>{{order.DateCreated | date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{order.Observation}}</td>
+                    <td>{{order.TotalValue}}</td>
+                    <td>{{order.Status}}</td>
+                    <td>   
+                      <a class="btn btn-warning" routerLink="/edit-order/{{order.IdOrder}}">Edit</a>  |
+                      <a class="btn btn-danger" (click)="deleteOrder(order.IdOrder, iControl)" role="button">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
+</div>
+
+<div>
+    <router-outlet></router-outlet>
+</div>

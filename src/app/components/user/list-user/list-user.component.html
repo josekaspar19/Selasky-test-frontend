@@ -1,0 +1,40 @@
+<div class="d-grid gap-2">
+    
+</div>
+<div class="card mt-10">
+    <div class="card-header text-white bg-dark">
+        <a class="btn btn-success" routerLink="../add-user">ADD USER </a>
+    </div>
+    <div class="card-body">
+        <h1>User List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>EMAIL</th>
+                    <th>STATUS</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of Users; let iControl=index">
+                    <td>{{user.IdUser}}</td>
+                    <td>{{user.Name}}</td>
+                    <td>{{user.Email}}</td>
+                    <td>{{user.StatusT}}</td>
+                    <td>   
+                      <a class="btn btn-warning" routerLink="/edit-user/{{user.IdUser}}">Edit</a>  | 
+                      <a class="btn btn-danger" (click)="deleteUser(user.IdUser, iControl)" role="button">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
+</div>
+
+<div>
+    <router-outlet></router-outlet>
+</div>

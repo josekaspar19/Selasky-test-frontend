@@ -1,0 +1,374 @@
+<!-- <p>add-user works!</p> -->
+<div class="card">
+  <div class="card-header text-white bg-black"></div>
+  <div class="card-body">
+    <h1 class="col-10">EDIT ORDER</h1>
+
+    <div class="mb-3">
+      <label for="OrderName" class="form-label"> User: </label>
+      <input
+        class="form-control"
+        id="OrderName"
+        name="OrderName"
+        aria-describedby="helpId"
+        value="{{ order.name }}"
+        readonly
+      />
+    </div>
+    <div class="mb-3">
+      <label for="OrderNumber" class="form-label">Order Number:</label>
+      <input
+        type="text"
+        (keyup)="keyUpOnlyNumber($event)"
+        (keypress)="keyPressOnlyNumbers($event)"
+        maxlength="11"
+        required
+        class="form-control"
+        name="OrderNumber"
+        id="OrderNumber"
+        aria-describedby="helpId"
+        [(ngModel)]="order.orderNumber"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="OrderDate" class="form-label">Date Time:</label>
+      <div class="row px-3">
+        <input
+          type="time"
+          required
+          class="form-control col"
+          name="OrderTime"
+          id="OrderTime"
+          [(ngModel)]="time"
+          aria-describedby="helpId"
+          placeholder="yyyy/MM/dd"
+        />
+        <input
+          type="date"
+          required
+          class="form-control col"
+          name="OrderDate"
+          id="OrderDate"
+          [(ngModel)]="date"
+          aria-describedby="helpId"
+          placeholder=""
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="OrderProviderName" class="form-label">ProviderName:</label>
+      <input
+        type="text"
+        required
+        class="form-control"
+        name="OrderProviderName"
+        id="OrderProviderName"
+        aria-describedby="helpId"
+        [(ngModel)]="order.providerName"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="OrderObservation" class="form-label">Observation:</label>
+      <input
+        type="text"
+        required
+        class="form-control"
+        name="OrderObservation"
+        id="OrderObservation"
+        aria-describedby="helpId"
+        [(ngModel)]="order.observation"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="OrderTotalValue" class="form-label">TotalValue:</label>
+      <input
+        id="CurrencyConversionBuy"
+        name="CurrencyConversionBuy"
+        type="text"
+        (keypress)="changeDecimal($event, true, 2)"
+        (keyup)="changeQuantityLength($event, 99999999999, 2)"
+        class="form-control"
+        [(ngModel)]="order.totalValue"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="OrderStatus" class="form-label">Status:</label>
+      <select
+        class="form-select col"
+        name="OrderStatus"
+        id="OrderStatus"
+        aria-describedby="helpId"
+        [(ngModel)]="order.status">
+        <option [disabled]="true" value="-1">Select Status</option>
+        <option value="1">Ingresado</option>
+        <option value="2">Enviado</option>
+        <option value="3">Entregado</option>
+      </select>
+    </div>
+    <div class="btn-group" role="group" aria-label="">
+      <button type="submit" (click)="updateOrder()" class="btn btn-warning">
+        UPDATE
+      </button>
+      <button type="button" routerLink="/list-order" class="btn btn-danger">
+        CANCEL
+      </button>
+    </div>
+    <br />
+    <hr />
+
+    <h2>Products</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>ValueUnit</th>
+          <th>Unit</th>
+          <th>Description</th>
+          <th>SKU</th>
+          <th>Quantity</th>
+          <th>QtyBox</th>
+          <th>Weight</th>
+          <th>Volumen</th>
+          <th>Mark</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr *ngFor="let order of Orders; let iControl=index"> -->
+        <tr *ngFor="let producto of productTbl; let iControl = index">
+          <td>{{ producto.IdOrdersProducts }}</td>
+          <td>{{ producto.ValueUnit }}</td>
+          <td>{{ producto.Unit }}</td>
+          <td>{{ producto.Description }}</td>
+          <td>{{ producto.SKU }}</td>
+          <td>{{ producto.Quantity }}</td>
+          <td>{{ producto.QtyBox }}</td>
+          <td>{{ producto.Weight }}</td>
+          <td>{{ producto.Volumen }}</td>
+          <td>{{ producto.Mark }}</td>
+          <td *ngIf="producto.Status == 1">Active</td>
+          <td *ngIf="producto.Status == 0">Inactive</td>
+          <td>
+            <a class="btn btn-warning" (click)="editProduct(producto)" role="button">Edit</a>|
+            <a
+              class="btn btn-danger"
+              (click)="deleteOrder(producto.IdOrdersProducts, iControl)"
+              role="button"
+              >Delete</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card">
+      <div *ngIf="action == 0" class="card-header text-white bg-dark">Add Product</div>
+      <div *ngIf="action == 1" class="card-header text-white bg-dark">Edit Product</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="ValueUnit" class="form-label">Value Unit</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                required
+                [(ngModel)]="product.valueUnit"
+                class="form-control"
+                name="ValueUnit"
+                id="ValueUnit"
+                aria-describedby="helpId"
+                placeholder="ValueUnit"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="Unit" class="form-label">Unit</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                required
+                [(ngModel)]="product.unit"
+                class="form-control"
+                name="Unit"
+                id="Unit"
+                aria-describedby="helpId"
+                placeholder="Unit"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="Description" class="form-label">Description</label>
+              <input
+                type="text"
+                [(ngModel)]="product.description"
+                class="form-control"
+                name="Description"
+                id="Description"
+                aria-describedby="helpId"
+                placeholder="Description"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="SKU" class="form-label">SKU</label>
+              <input
+                type="text"
+                maxlength="11"
+                required
+                [(ngModel)]="product.sku"
+                class="form-control"
+                name="SKU"
+                id="SKU"
+                aria-describedby="helpId"
+                placeholder="SKU"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="Quantity" class="form-label">Quantity</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                [(ngModel)]="product.quantity"
+                class="form-control"
+                name="Quantity"
+                id="Quantity"
+                aria-describedby="helpId"
+                placeholder="Quantity"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="QtyBox" class="form-label">QtyBox</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                [(ngModel)]="product.qtyBox"
+                class="form-control"
+                name="QtyBox"
+                id="QtyBox"
+                aria-describedby="helpId"
+                placeholder="QtyBox"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="Weight" class="form-label">Weight</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                [(ngModel)]="product.weight"
+                class="form-control"
+                name="Weight"
+                id="Weight"
+                aria-describedby="helpId"
+                placeholder="Weight"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="Volumen" class="form-label">Volumen</label>
+              <input
+                type="text"
+                (keyup)="keyUpOnlyNumber($event)"
+                (keypress)="keyPressOnlyNumbers($event)"
+                maxlength="11"
+                [(ngModel)]="product.volumen"
+                class="form-control"
+                name="Volumen"
+                id="Volumen"
+                aria-describedby="helpId"
+                placeholder="Volumen"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="Mark" class="form-label">Mark</label>
+              <input
+                type="text"
+                [(ngModel)]="product.mark"
+                class="form-control"
+                name="Mark"
+                id="Mark"
+                aria-describedby="helpId"
+                placeholder="Mark"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="mb-3">
+            <label for="Status" class="form-label">Status</label>
+            <select
+              class="form-select col"
+              name="Status"
+              id="Status"
+              aria-describedby="helpId"
+              [(ngModel)]="product.status"
+            >
+              <option [selected]="true" [disabled]="true" value="-1">
+                Select Status
+              </option>
+              <option value="1">Active</option>
+              <option value="0">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="action==1" class="col-4">
+          <div class="mb-3">
+            <label for="idOrdersProducts" class="form-label">You are editing the product: </label>
+            <input
+            [disabled]="true"
+            type="text"
+            [(ngModel)]="product.idOrdersProducts"
+            class="form-control"
+            name="idOrdersProducts"
+            id="idOrdersProducts"
+            aria-describedby="helpId"
+            placeholder="idOrdersProducts"
+          />
+          </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="">
+          <a *ngIf="action==0" (click)="addProduct()" class="btn btn-success">ADD PRODUCT</a>
+          <a *ngIf="action==1" (click)="updateProduct()" class="btn btn-warning">UPDATE PRODUCT</a>
+          <a *ngIf="action==1" (click)="cancel()"class="btn btn-danger">CANCEL</a>
+          <a *ngIf="action==0" (click)="clean()"class="btn btn-danger">CLEAN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

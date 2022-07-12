@@ -1,0 +1,36 @@
+<!-- <p>add-user works!</p> -->
+<div class="card">
+    <div class="card-header text-white bg-black">
+    </div>
+    <div class="card-body">
+        <h1>ADD USER</h1>
+        <form ngNativeValidate [formGroup]="formUser" (ngSubmit)="sendData()">
+
+            <div class="mb-3">
+              <label for="" class="form-label">Name:</label>
+              <input required type="text"
+                class="form-control" name="" formControlName="Name" id="" aria-describedby="helpId" placeholder="example: José Kaspar">
+              
+              <label for="" class="form-label">Email:</label>
+              <input required type="email"
+                class="form-control" name="" formControlName="Email" id="" aria-describedby="helpId" placeholder="example: jkasparm@gmail.com">
+              
+                <div class="mb-3">
+                  <label for="" class="form-label">STATUS:</label>
+                  <select required class="form-select" name="" formControlName="Status">
+                    <option [selected]="true" value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                </div>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="">
+                <button type="submit" class="btn btn-success">ADD</button>
+                <button type="button" routerLink="/list-user" class="btn btn-danger">CANCEL</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
